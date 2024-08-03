@@ -1,34 +1,38 @@
 NAME = libftprintf.a
 
-CC = gcc
+CC = cc
 FLAGS = -Wall -Wextra -Werror
+AR = ar -rcs 
 
-SRC = ft_printf.c \
+SRC = ft_printf.c ft_putchar.c ft_putstr.c \
+      ft_put_hex.c ft_put_ptr.c ft_putnbr.c \
+      ft_put_unsigned.c
 
-bonus = 
 
 HEADERS = ft_printf.h
 
-OBJ = $(SRC: .c = .o)
+OBJ = $(SRC:.c=.o)
 
-bonus: $(OBJ) # Assuming bonus files are in SRC and HEADERS
-	$(AR) $(NAME) $^
+LIBFT_DIR = libft
 
-AR = ar rcs
-
-all = $(NAME)
+all: $(NAME) 
 
 $(NAME): $(OBJ)
-	$(AR) $@ $^
+	$(AR) $(NAME) $(OBJ)
 
 %.o: %.c $(HEADERS)
-	$(CC) $(CFLAGS) -c $< -o $@
+	$(CC) $(FLAGS) -c $< -o $@
 
 clean : 
 	rm -f $(OBJ)
+
 fclean : 
-	rm -f $(NAME) $(HEADERS)
+	rm -f $(NAME)
 
 re = fclean all
 
+libft:
+	$(MAKE) -C $(LIBFT_DIR)
+
+.PHONY: all clean fclean re bonus libft $(HEADERS)
 
